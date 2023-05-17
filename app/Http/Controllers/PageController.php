@@ -77,7 +77,7 @@ class PageController extends Controller
         $dom = new DOMDocument;
         $dom->loadXML($text);
         $dom->formatOutput = true;
-        //$dom->save(public_path("katalog.xml"));
+        $dom->save(public_path("katalog.xml"));
         return true;
     }
 
