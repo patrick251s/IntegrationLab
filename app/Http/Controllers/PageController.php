@@ -9,23 +9,6 @@ use SimpleXMLElement;
 
 class PageController extends Controller
 {
-    public function saveJumper(Request $request) {
-        $firstname = $request->input("firstname");
-        $surname = $request->input("surname");
-        DB::insert("INSERT INTO jumpers (firstname, surname) VALUES (?, ?)", [$firstname, $surname]);
-        return redirect("/jumpers");
-    }
-
-    public function getJumpers() {
-        $jumpersArray = DB::select("SELECT * FROM jumpers");
-        return view("jumpers", compact("jumpersArray"));
-    }
-
-    public function deleteJumper($jumperID) {
-        DB::delete("DELETE FROM jumpers WHERE id = ?", [$jumperID]);
-        return redirect("/jumpers");
-    }
-
     public function saveToFile() {
         $laptops = json_decode(filter_input(INPUT_POST, 'laptops'), true);
         $text = "";
