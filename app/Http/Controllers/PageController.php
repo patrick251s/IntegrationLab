@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use DOMDocument;
 use SimpleXMLElement;
+use SoapClient;
 
 class PageController extends Controller
 {
@@ -97,6 +98,38 @@ class PageController extends Controller
             return json_encode($laptops);
         } catch (Exception $ex) {
             return false;
+        }
+    }
+
+    public function callSoapClient(Request $request) {
+        $methodName = $request->input("methodName");
+
+        $options = array(
+        "location" => "http://localhost/IS_Lab_SOAP/server.php",
+        "uri" => "urn://localhost/IS_Lab_SOAP/server.php",
+        "trace" => 1
+        );
+
+        $client = new SoapClient(null, $options);
+
+        if($methodName == "laptopAmountByProducer") {
+            $producerName = filter_input(INPUT_GET, 'producerName');
+            $params = array("producerName" => $producerName);
+            $response = $client->__soapCall("getLaptopAmountByProducer", $params);
+            echo $response;
+        }
+        else if($methodName == "laptopAmountByMatrix") {
+            $matrix1 = filter_input(INPUT_GET, 'matrixValue1');
+            $matrix2 = filter_input(INPUT_GET, 'matrixValue2');
+            $params = array("matrix1" => $matrix1, "matrix2" => $matrix2);
+            $response = $client->__soapCall("getLaptopAmountByMatrix", $params);
+            echo $response;
+        }
+        else if($methodName == "laptopListByMatrixType") {
+            $matrixType = filter_input(INPUT_GET, 'matrixType');
+            $params = array("matrixType" => $matrixType);
+            $response = $client->__soapCall("getLaptopListByMatrixType", $params);
+            echo json_encode($response);
         }
     }
 }

@@ -3,7 +3,7 @@ let soapLaptops = [];
 $("#showLaptopAmountByProducerBTN").click(function() {
     let producerName = $("#producerNameSelect").find(":selected").val();
     if(producerName === "") return;
-    $.get('soapClient.php', {
+    $.get('/callSoapClient', {
         methodName: "laptopAmountByProducer",
         producerName: producerName
         }, 
@@ -20,12 +20,13 @@ $("#showLaptopAmountByMatrixBTN").click(function() {
     let matrix = $("#matrixResolutionSelect").find(":selected").val();
     if(!matrix.includes("x")) return;
     let matrixValues = matrix.split("x");
-    $.get('soapClient.php', {
+    $.get('/callSoapClient', {
         methodName: "laptopAmountByMatrix",
         matrixValue1: matrixValues[0],
         matrixValue2: matrixValues[1]
         }, 
         function(data, status) {
+            console.log(data);
             let news = "Liczba laptopów o proporcji "+matrix+" = <b>"+data+"</b>";
             $("#matrixResult").html(news);
         }
@@ -37,7 +38,7 @@ $("#showLaptopAmountByMatrixBTN").click(function() {
 $("#showLaptopListByMatrixTypeBTN").click(function() {
     let matrixType = $("#matrixTypeSelect").find(":selected").val();
     if(matrixType === "") return;
-    $.getJSON('soapClient.php', {
+    $.getJSON('/callSoapClient', {
         methodName: "laptopListByMatrixType",
         matrixType: matrixType
         }, 
@@ -76,6 +77,3 @@ function showTableFromSOAP(newSoapLaptops) {
     markDuplicatedInTable(duplicatedIDs);
     soapLaptops = newSoapLaptops;
 }
-
-
-
