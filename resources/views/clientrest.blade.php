@@ -10,7 +10,7 @@
 <body class="bg-dark text-light text-center">
     <main>
         <header class="py-4">
-            <h2>Aplikacja klienta (SOAP)</h2>
+            <h2>Aplikacja klienta (REST)</h2>
         </header>
         
         <section class="text-center row">
@@ -66,7 +66,6 @@
     <script src="js/Laptop.js"></script>
     <script src="js/script.js"></script>
     <script src="js/checkingDuplicates.js"></script>
-    <script src="js/client.js"></script>
-    
+    <script src="js/clientRest.js"></script>
 </body>
 </html>

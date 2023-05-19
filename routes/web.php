@@ -21,6 +21,10 @@ Route::get('/client', function () {
     return view('client');
 });
 
+Route::get('/clientrest', function () {
+    return view('clientrest');
+});
+
 Route::post('/saveToFile', "PageController@saveToFile");
 
 Route::post('/saveToXMLFile', "PageController@saveToXMLFile");
@@ -32,3 +36,9 @@ Route::post('/saveToDatabase', "PageController@saveToDatabase");
 Route::get('/loadFromDatabase', "PageController@loadFromDatabase");
 
 Route::get('/callSoapClient', "PageController@callSoapClient");
+
+Route::get('/getLaptopAmountByProducer', "PageController@getLaptopAmountByProducer");
+
+Route::get('/getLaptopAmountByMatrix', "PageController@getLaptopAmountByMatrix");
+
+Route::get('/getLaptopListByMatrix', "PageController@getLaptopListByMatrix");

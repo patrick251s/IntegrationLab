@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use DB;
 use DOMDocument;
 use SimpleXMLElement;
@@ -130,6 +131,42 @@ class PageController extends Controller
             $params = array("matrixType" => $matrixType);
             $response = $client->__soapCall("getLaptopListByMatrixType", $params);
             echo json_encode($response);
+        }
+    }
+
+    public function getLaptopAmountByProducer(Request $request) {
+        try {
+            $amount = DB::table('laptops')->where('producer', $request->input("producerName"))->count();
+            return $amount;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+    public function getLaptopAmountByMatrix(Request $request) {
+        try {
+            $resolutions = DB::select("SELECT DISTINCT resolution FROM laptops");
+            foreach($resolutions as $res) {
+                if(!Str::contains($res->resolution, "x")) continue;
+                $resValues = explode("x", $res->resolution);
+                //Jeśli proporcja jest prawie równa
+                if(abs((($request->input("matrixValue1"))/($request->input("matrixValue2")))-($resValues[0]/$resValues[1])) < 0.01) {      
+                    $amount = DB::table('laptops')->where('resolution', $res->resolution)->count();
+                    return $amount;
+                }
+            }
+        } catch (Exception $ex) {
+            return false;
+        } 
+        return 0;   
+    }
+
+    public function getLaptopListByMatrix(Request $request) {
+        try {
+            $laptops = DB::select("SELECT * FROM laptops WHERE surface = ? ORDER BY id", [$request->input("matrixType")]);
+            return json_encode($laptops);
+        } catch (Exception $ex) {
+            return false;
         }
     }
 }
